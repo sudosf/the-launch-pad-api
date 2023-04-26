@@ -26,42 +26,25 @@ connectToDb((err) => {
  * 
  */
 
-app.get('/books', (req, res) => {
-    const page = req.query.p || 0;
-    const booksPerPage = 3 // books per page to show
+app.get('/questions', (req, res) => {
 
-    let books = [];
+    let qn = [];
 
-    db.collection('books')
+    db.collection('questions')
     .find()
-    .skip(page * booksPerPage) // return specific page requested
-    .limit(booksPerPage) // show 3 books per page
-    .forEach(book => books.push(book))
+    .forEach(question => qn.push(question))
     .then(() => {
-        res.status(200).json(books)
+        res.status(200).json(qn);
     })
     .catch(() => {
         res.status(500).json({error: "could not fetch"})
     });
 
-})
+}) // get ALL questions
 
-app.post('/books', (req, res) => {
-    const book = req.body
-
-    db.collection('books')
-    .insertOne(book)
-    .then(result => {
-        res.status(201).json(result);
-    })
-    .catch(err => {
-        res.status(500).json({err: 'could not insert document'})
-    })
-})
-
-app.get('/books/:id', (req, res) => {
+app.get('/questions/:id', (req, res) => {
     if (ObjectId.isValid(req.params.id)) {
-        db.collection('books')
+        db.collection('questions')
         .findOne({_id: new ObjectId(req.params.id)})
         .then(doc => {
             res.status(200).json(doc)
@@ -70,12 +53,25 @@ app.get('/books/:id', (req, res) => {
             res.status(500).json({error: "could not fetch"});
         });
     } else res.status(500).json({error: "invalid Id"});
-})
+}) // get ONE question
 
-app.delete('/books/:id', (req, res) => {
+app.post('/questions', (req, res) => {
+    const question = req.body
+
+    db.collection('questions')
+    .insertOne(question)
+    .then(result => {
+        res.status(201).json(result);
+    })
+    .catch(err => {
+        res.status(500).json({err: 'could not insert document'})
+    })
+}) // add ONE question
+
+app.delete('/questions/:id', (req, res) => {
 
     if (ObjectId.isValid(req.params.id)) {
-        db.collection('books')
+        db.collection('questions')
         .deleteOne({_id: new ObjectId(req.params.id)})
         .then(result => {
             res.status(200).json(result);
@@ -85,13 +81,13 @@ app.delete('/books/:id', (req, res) => {
         });
     } else res.status(500).json({error: "invalid Id"});
     
-})
+}) // delete ONE question
 
-app.patch("/books/:id", (req, res) => {
+app.patch("/questions/:id", (req, res) => {
     const updates = req.body
 
     if (ObjectId.isValid(req.params.id)) {
-        db.collection('books')
+        db.collection('questions')
         .updateOne({_id: new ObjectId(req.params.id)}, {$set: updates})
         .then(result => {
             res.status(200).json(result);
@@ -100,4 +96,4 @@ app.patch("/books/:id", (req, res) => {
             res.status(500).json({error: "could not update document"});
         });
     } else res.status(500).json({error: "invalid Id"});
-})
+}) // update ONE question
