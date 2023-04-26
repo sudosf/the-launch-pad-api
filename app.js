@@ -2,7 +2,6 @@ const express = require('express')
 const { ObjectId } = require('mongodb')
 const { connectToDb, getDb } = require('./database');
 
-
 // init app & middleware
 const app = express()
 app.use(express.json())
@@ -19,7 +18,14 @@ connectToDb((err) => {
     }
 })
 
-// routes
+/** routes or endpoints:
+ * GET: getOne, getMany, getAll
+ * POST: One, Many
+ * PATCH/UPDATE: One
+ * dELETE: One, Many
+ * 
+ */
+
 app.get('/books', (req, res) => {
     const page = req.query.p || 0;
     const booksPerPage = 3 // books per page to show
