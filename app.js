@@ -45,8 +45,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/questions', (req, res) => {
-
-    let qn = [];
+    let qn = []; // list of all questions
 
     db.collection('questions')
     .find()
@@ -72,6 +71,22 @@ app.get('/questions/:id', (req, res) => {
         });
     } else res.status(500).json({error: "invalid Id"});
 }) // get ONE question
+
+app.get('/questions/types/:type', (req, res) => {
+    let qn = []; // list of all questions
+
+    if (typeExists(req.params.type)) {
+        db.collection('questions')
+        .find({ type: req.params.type })
+        .forEach(question => qn.push(question))
+        .then(() => {
+        res.status(200).json(qn);
+        })
+        .catch(err => {
+            res.status(500).json({error: "could not fetch"});
+        });
+    } else res.status(500).json({error: "invalid question type request"});
+}) // get All questions of specific 'type'
 
 app.post('/questions', (req, res) => {
     const question = req.body
@@ -116,3 +131,9 @@ app.patch("/questions/:id", (req, res) => {
     } else res.status(500).json({error: "invalid Id"});
     
 }) // update ONE question
+
+function typeExists(type) {
+    let qn_types = ["multi-choice", "multi-response", "T-F", "short-answer", "fill-blank"];
+
+    return qn_types.includes(type);
+}
