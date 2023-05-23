@@ -1,0 +1,10 @@
+{
+  "projectName": "tlp-api",
+  "meta": {
+    "type": "backend"
+  },
+  "backend": {
+    "platform": "node17"
+  },
+  "hash": "9a8373d2"
+}
