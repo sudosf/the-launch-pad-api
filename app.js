@@ -133,7 +133,7 @@ app.patch("/questions/:id", (req, res) => {
 }) // update ONE question
 
 function typeExists(type) {
-    let qn_types = ["multi-choice", "multi-response", "T-F", "short-answer", "fill-blank"];
+    let qn_types = ["multi-choice", "left-right", "up-down", "circular"];
 
     return qn_types.includes(type);
 }
