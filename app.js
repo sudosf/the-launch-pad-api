@@ -9,8 +9,6 @@ let cors = require("cors");
 
 // init app & middleware
 const app = express()
-app.use(express.json())
-app.use(cors())
 
 /**
  * To kill port process(linux):
