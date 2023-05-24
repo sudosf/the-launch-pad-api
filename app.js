@@ -2,7 +2,6 @@ const express = require('express')
 const { ObjectId } = require('mongodb')
 const { connectToDb, getDb } = require('./database');
 
-let cors = require("cors");
 /**
  * Testing master branch
  */
