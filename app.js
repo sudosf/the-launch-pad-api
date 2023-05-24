@@ -2,6 +2,7 @@ const express = require('express')
 const { ObjectId } = require('mongodb')
 const { connectToDb, getDb } = require('./database');
 
+let cors = require("cors");
 /**
  * Testing master branch
  */
@@ -9,6 +10,7 @@ const { connectToDb, getDb } = require('./database');
 // init app & middleware
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 /**
  * To kill port process(linux):
