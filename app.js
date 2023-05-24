@@ -2,12 +2,19 @@ const express = require('express')
 const { ObjectId } = require('mongodb')
 const { connectToDb, getDb } = require('./database');
 
-/**
- * Testing master branch
- */
+const cors = require('cors')
+const corsOptions ={
+    origin: '*', 
+    credentials: true,            // access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
 
 // init app & middleware
 const app = express()
+app.use(express.json())
+
+// allow cors
+app.use(cors(corsOptions))
 
 /**
  * To kill port process(linux):
